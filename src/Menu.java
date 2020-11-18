@@ -27,9 +27,9 @@ public class Menu extends JPanel {
     }
 
     public void initComps(GUI mGui) {
-        btnPlay = setLabel(30, 150, "/resources/Play.png");
+        btnPlay = setLabel(30, 500, "/resources/Play.png");
 
-        btnHowtoplay = setLabel(btnPlay.getX(), btnPlay.getY() + btnPlay.getHeight() + padding, "/resources/btnHtp.png");
+        btnHowtoplay = setLabel(btnPlay.getX() + btnPlay.getWidth() + padding, btnPlay.getY(), "/resources/btnHtp.png");
 
         btnPlay.addMouseListener(mMouseAdapter);
         btnHowtoplay.addMouseListener(mMouseAdapter);
@@ -42,7 +42,7 @@ public class Menu extends JPanel {
         lbbackground = new JLabel();
         lbbackground.setBounds(0, -10, mGui.getWidth(), mGui.getHeight());
         lbbackground.setBackground(Color.BLACK);
-        backgroundIcon = new ImageIcon(getClass().getResource("/resources/Capture.PNG"));
+        backgroundIcon = new ImageIcon(getClass().getResource("/resources/banner2.png"));
         lbbackground.setIcon(backgroundIcon);
         add(lbbackground);
     }
