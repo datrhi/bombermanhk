@@ -1,3 +1,5 @@
+package gui;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +24,7 @@ public class Howtoplay extends JPanel implements ActionListener {
     public void initCompts() {
         lbbackground = new JLabel();
         lbbackground.setBounds(95, -40, 905, 610);
-        backgroundIcon = new ImageIcon(getClass().getResource("/resources/Howtoplay.png"));
+        backgroundIcon = new ImageIcon(getClass().getResource("/images/Howtoplay.png"));
         lbbackground.setIcon(backgroundIcon);
         add(lbbackground);
 

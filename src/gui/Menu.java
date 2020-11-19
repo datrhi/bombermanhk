@@ -1,3 +1,5 @@
+package gui;
+
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,7 +11,7 @@ import javax.swing.JPanel;
 
 public class Menu extends JPanel {
     private int padding = 15;
-    ;
+
     private GUI mGui;
     private MyContainer mContainer;
     private JLabel lbbackground;
@@ -27,9 +29,9 @@ public class Menu extends JPanel {
     }
 
     public void initComps(GUI mGui) {
-        btnPlay = setLabel(30, 150, "/resources/Play.png");
+        btnPlay = setLabel(30, 490, "/images/Play.png");
 
-        btnHowtoplay = setLabel(btnPlay.getX(), btnPlay.getY() + btnPlay.getHeight() + padding, "/resources/btnHtp.png");
+        btnHowtoplay = setLabel(btnPlay.getX() + btnPlay.getWidth() + padding, btnPlay.getY(), "/images/btnHtp.png");
 
         btnPlay.addMouseListener(mMouseAdapter);
         btnHowtoplay.addMouseListener(mMouseAdapter);
@@ -42,7 +44,7 @@ public class Menu extends JPanel {
         lbbackground = new JLabel();
         lbbackground.setBounds(0, -10, mGui.getWidth(), mGui.getHeight());
         lbbackground.setBackground(Color.BLACK);
-        backgroundIcon = new ImageIcon(getClass().getResource("/resources/Capture.PNG"));
+        backgroundIcon = new ImageIcon(getClass().getResource("/images/banner2.PNG"));
         lbbackground.setIcon(backgroundIcon);
         add(lbbackground);
     }
@@ -59,11 +61,11 @@ public class Menu extends JPanel {
         @Override
         public void mouseEntered(MouseEvent e) {
             if (e.getSource() == btnPlay) {
-                ImageIcon playIcon = new ImageIcon(getClass().getResource("/resources/Play2.png"));
+                ImageIcon playIcon = new ImageIcon(getClass().getResource("/images/Play2.png"));
                 btnPlay.setIcon(playIcon);
             }
             if (e.getSource() == btnHowtoplay) {
-                ImageIcon HowtoplayIcon = new ImageIcon(getClass().getResource("/resources/btnHtp2.png"));
+                ImageIcon HowtoplayIcon = new ImageIcon(getClass().getResource("/images/btnHtp2.png"));
                 btnHowtoplay.setIcon(HowtoplayIcon);
             }
         }
@@ -71,11 +73,11 @@ public class Menu extends JPanel {
         @Override
         public void mouseExited(MouseEvent e) {
             if (e.getSource() == btnPlay) {
-                ImageIcon playIcon = new ImageIcon(getClass().getResource("/resources/Play.png"));
+                ImageIcon playIcon = new ImageIcon(getClass().getResource("/images/Play.png"));
                 btnPlay.setIcon(playIcon);
             }
             if (e.getSource() == btnHowtoplay) {
-                ImageIcon HowtoplayIcon = new ImageIcon(getClass().getResource("/resources/btnHtp.png"));
+                ImageIcon HowtoplayIcon = new ImageIcon(getClass().getResource("/images/btnHtp.png"));
                 btnHowtoplay.setIcon(HowtoplayIcon);
             }
         }

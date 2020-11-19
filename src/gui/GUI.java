@@ -1,3 +1,5 @@
+package gui;
+
 import java.awt.CardLayout;
 import javax.swing.JFrame;
 
