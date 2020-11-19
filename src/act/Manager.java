@@ -136,8 +136,8 @@ public class Manager {
         if (mBomber.getStatus() == Bomber.DEAD) {
             return;
         }
-        int x = mBomber.getX();// + mBomber.getWidth() / 2;
-        int y = mBomber.getY();// + mBomber.getHeart() / 2;
+        int x = mBomber.getX() + mBomber.getWidth() / 2;  // chon vi tri de gan nhat voi 1 so nguyen lan cua 45
+        int y = mBomber.getY() + mBomber.getHeight() / 2;
         for (int i = 0; i < arrBomb.size(); i++) {
             if (arrBomb.get(i).isImpact(x, y)) {
                 return;
@@ -148,7 +148,8 @@ public class Manager {
             return;
         }
         //GameSound.getIstance().getAudio(GameSound.BOMB).play();
-        Bomb mBomb = new Bomb(x, y, mBomber.getSizeBomb(), 2500);
+        Bomb mBomb = new Bomb(x, y, mBomber.getSizeBomb(), 2500); // tao new bomb va chon vi tri nguyen lan cua
+                                                                          // 45 gan nhat
         arrBomb.add(mBomb);
     }
 

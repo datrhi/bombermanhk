@@ -12,8 +12,8 @@ public class Bomb extends Actor {
 
     /**-------------- Constructor. ----------------*/
     public Bomb(int x, int y, int size, int timeline) {
-        //x = (x / 45) * 45;
-        //y = (y / 45) * 45;
+        x = (x / 45) * 45;  // nguyen lan cua 45
+        y = (y / 45) * 45;
         this.x = x;
         this.y = y;
         this.size = size;
@@ -27,9 +27,8 @@ public class Bomb extends Actor {
 
     /**----------------- Constructor. ---------------------*/
     public Bomb(int x, int y, int orient, int speed, int size, int timeline) {
-        /*
-        x = x;
-        y = x; */
+        x = (x / 45) * 45;  // nguyen lan cua 45
+        y = (y / 45) * 45;
         this.x = x;
         this.y = y;
         this.orient = orient;
