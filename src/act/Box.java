@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class Box {
 
-    public static int ALLROW_BANG = 0;
-    public static int DISALLROW_BANG = 1;
+    public static int ALLOW_BANG = 0;
+    public static int DISALLOW_BANG = 1;
     private int x,y,width,height;
     private int type;  // 1-ALLOW_BANG. 2-DISALLOW_BANG. Check xem co bi pha khi bom no hay k.
     private Image img;

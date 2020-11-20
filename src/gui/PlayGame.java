@@ -104,7 +104,7 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
             }
 
             // Cho phep bomber di qua bomb
-            //mMagager.setRunBomer();
+            mMagager.setRunBomber();
             // Dem nguoc thoi gian bomb no
 
 
@@ -168,9 +168,9 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
             repaint();
             count++;
 
-			if(count==1000000) {
-				count=0;
-			}
+            if(count==1000000) {
+                count=0;
+            }
 
         }
 

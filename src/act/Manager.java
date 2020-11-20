@@ -1,5 +1,7 @@
 package act;
 
+import act.BombBang;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -27,23 +29,35 @@ public class Manager {
     public Manager() { initManager(); }
 
     public void initManager() {
-                mBomber = new Bomber(0, 540, Actor.BOMBER, Actor.DOWN, 5, 1, 1);
-                init("src/map1/BOX.txt", "src/map1/ENEMY.txt" );
-                nextRound = 0;
-                status = 0;
+        mBomber = new Bomber(0, 540, Actor.BOMBER, Actor.DOWN, 5, 1, 1);
+        init("src/map1/BOX.txt", "src/map1/ENEMY.txt" );
+        nextRound = 0;
+        status = 0;
     }
 
     public void init(String pathBox, String pathEnemy) {
         arrBox = new ArrayList<Box>();
         arrBomb = new ArrayList<Bomb>();
         arrEnemy = new ArrayList<Enemy>();
-        //arrBombBang = new ArrayList<BombBang>();
+        arrBombBang = new ArrayList<BombBang>();
         //arrItem = new ArrayList<Item>();
 
         initArrBox(pathBox);
         initArrMonster(pathEnemy);
         //innitArrItem(pathItem);
     }
+
+    /**----------------------------- Bomber Handle. -------------------------------*/
+    public void setRunBomber() {
+        if (arrBomb.size() > 0) {
+            //System.out.println(arrBomb.get(arrBomb.size() - 1).setRun(mBomber));
+            if (arrBomb.get(arrBomb.size() - 1).setRun(mBomber) == false ) {
+                mBomber.setRunBomb(Bomber.DISALLOW_RUN);
+            }
+        }
+    }
+    //------------------------------ Bomber Handle End. ----------------------------//
+
 
     /**----------------------------- Box Handle. -------------------------------*/
     public void initArrBox(String pathBox) {
@@ -143,13 +157,11 @@ public class Manager {
                 return;
             }
         }
-
         if (arrBomb.size() >= mBomber.getQuantityBomb()) {
             return;
         }
         //GameSound.getIstance().getAudio(GameSound.BOMB).play();
-        Bomb mBomb = new Bomb(x, y, mBomber.getSizeBomb(), 2500); // tao new bomb va chon vi tri nguyen lan cua
-                                                                          // 45 gan nhat
+        Bomb mBomb = new Bomb(x, y, mBomber.getSizeBomb(), 3000);
         arrBomb.add(mBomb);
     }
 
@@ -157,20 +169,48 @@ public class Manager {
         for (int i = 0; i < arrBomb.size(); i++) {
             arrBomb.get(i).drawActor(g2d);
         }
-        /*
         for (int i = 0; i < arrBombBang.size(); i++) {
-            arrBombBang.get(i).drawBongBang(g2d);
-        }*/
+            arrBombBang.get(i).drawBombBang(g2d);
+        }
+        damage();
     }
 
     public void deadLineAllBomb() {
         for(int i = 0; i < arrBomb.size(); i++) {
             arrBomb.get(i).deadlineBomb();
             if(arrBomb.get(i).getTimeline() == 0) {
+                BombBang bombBang = new BombBang(arrBomb.get(i).getX(), arrBomb.get(i).getY(), arrBomb.get(i).getSize(),
+                        250);
+                arrBombBang.add(bombBang);
                 arrBomb.remove(i);
             }
         }
+
+        for(int i = 0; i < arrBombBang.size(); i++) {
+            arrBombBang.get(i).deadLineBombBang();
+            if(arrBombBang.get(i).getTimeLine() == 0) {
+                arrBombBang.remove(i);
+            }
+        }
     }
+
+    public void damage() {
+        for(int i = 0; i < arrBombBang.size(); i++) {
+            for(int j = 0; j < arrBox.size(); j++) {
+                if(arrBombBang.get(i).isImpactBombBangVsBox(arrBox.get(j))) {
+                    arrBox.remove(j);
+                }
+            }
+
+            for(int k = 0; k < arrEnemy.size(); k++) {
+                if(arrBombBang.get(i).isImpactBombBangVsEnemy(arrEnemy.get(k))) {
+                    arrEnemy.remove(k);
+                }
+            }
+        }
+
+    }
+
     //------------------------------ Bomb Handle End. ----------------------------------//
 
 
