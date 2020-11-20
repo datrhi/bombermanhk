@@ -56,6 +56,26 @@ public class Manager {
             }
         }
     }
+
+    public void checkDead() {
+        for(int i = 0; i < arrBombBang.size(); i++) {
+            if(arrBombBang.get(i).isImpactBombBangVsActor(mBomber)) {
+                Image image = new ImageIcon(getClass().getResource(
+                        "/images/ghost.png")).getImage();
+                mBomber.setImage(image);
+                //mBomber.drawActor(image);
+                mBomber.setStatus(0);
+            }
+        }
+        for(int i = 0; i < arrEnemy.size(); i++) {
+            if(mBomber.isImpactBomberVsActor(arrEnemy.get(i))) {
+                Image image = new ImageIcon(getClass().getResource(
+                        "/images/ghost.png")).getImage();
+                mBomber.setImage(image);
+                mBomber.setStatus(0);
+            }
+        }
+    }
     //------------------------------ Bomber Handle End. ----------------------------//
 
 
@@ -203,7 +223,7 @@ public class Manager {
             }
 
             for(int k = 0; k < arrEnemy.size(); k++) {
-                if(arrBombBang.get(i).isImpactBombBangVsEnemy(arrEnemy.get(k))) {
+                if(arrBombBang.get(i).isImpactBombBangVsActor(arrEnemy.get(k))) {
                     arrEnemy.remove(k);
                 }
             }

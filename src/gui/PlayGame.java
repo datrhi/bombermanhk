@@ -29,6 +29,7 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
     private Manager mMagager = new Manager();
     private int count=0;
     private int move;
+    int timeDead = 0; // delay dead;
 
     public PlayGame(MyContainer mContainer) {
         this.mContainer = mContainer;
@@ -109,6 +110,17 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
 
 
             mMagager.deadLineAllBomb();
+            mMagager.checkDead();
+
+            if(mMagager.getmBomber().getStatus() == 0) {
+                timeDead++;  //Delay 2000 loop
+                System.out.println(timeDead);
+                if(timeDead == 2000){
+                    mMagager.initManager();
+                    mContainer.setShowMenu();
+                    timeDead = 0;
+                }
+            }
             /*
             // Kiem tra bomber da teo chua
             mMagager.checkDead();

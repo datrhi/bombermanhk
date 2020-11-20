@@ -52,9 +52,9 @@ public class BombBang extends Actor{
         return false;
     }
 
-    public boolean isImpactBombBangVsEnemy(Enemy enemy) {
+    public boolean isImpactBombBangVsActor(Actor actor) {
         //if(box.getType()==box.DISALLOW_BANG) return false;
-        Rectangle rec1 = new Rectangle(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
+        Rectangle rec1 = new Rectangle(actor.getX(), actor.getY(), actor.getWidth(), actor.getHeight());
         Rectangle rec2 = new Rectangle(x + 45 -bombBang_left.getWidth(null), y,
                 bombBang_left.getWidth(null), bombBang_left.getHeight(null));
 
