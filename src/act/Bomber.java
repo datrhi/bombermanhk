@@ -23,7 +23,7 @@ public class Bomber extends Actor {
         this.status = Bomber.ALIVE;
         this.image =new ImageIcon(getClass().getResource("/images/bomber_down.png")).getImage();
         width = image.getWidth(null);    // ko co 1 doi tuong nao dang doi anh
-        height = image.getHeight(null); //-20
+        height = image.getHeight(null)-11;
     }
 
     /** ---------------- Set new boomber in new map or after dead. ---------------*/

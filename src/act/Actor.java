@@ -31,10 +31,10 @@ public class Actor {
     public void drawActor(Graphics2D g2d){
         switch (type) {
             case BOMBER:
-                g2d.drawImage(image, x, y-20, null);
+                g2d.drawImage(image, x, y-11, null);
                 break;
             case MONSTER:
-                g2d.drawImage(image, x, y-20, null);
+                g2d.drawImage(image, x, y-23, null);
                 break;
             case BOMB:
                 g2d.drawImage(image, x, y, null);
