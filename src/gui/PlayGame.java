@@ -49,9 +49,9 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         mMagager.draWBackground(g2d);
         mMagager.drawAllItem(g2d);
+        mMagager.drawAllBomb(g2d);
         mMagager.drawAllBox(g2d);
         mMagager.drawAllEnemy(g2d);
-        mMagager.drawAllBomb(g2d);
         mMagager.getmBomber().drawActor(g2d);
     }
 
