@@ -29,7 +29,7 @@ public class Menu extends JPanel {
     }
 
     public void initComps(GUI mGui) {
-        btnPlay = setLabel(30, 490, "/images/Play.png");
+        btnPlay = setLabel(30, 505, "/images/Play.png");
 
         btnHowtoplay = setLabel(btnPlay.getX() + btnPlay.getWidth() + padding, btnPlay.getY(), "/images/btnHtp.png");
 

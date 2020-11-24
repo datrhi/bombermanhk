@@ -78,7 +78,7 @@ public class Actor {
                 }
                 break;
             case RIGHT:
-                if(x>(905-width)){
+                if(x>(915-width)){
                     return false;
                 }
                 x=x+1;
@@ -130,7 +130,7 @@ public class Actor {
                 }
                 break;
             case DOWN:
-                if(y>=(610-height)){
+                if(y>=(630-height)){
                     return false;
                 }
                 y=y+1;
