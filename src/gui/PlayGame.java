@@ -48,9 +48,9 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
         g2d.setStroke(new java.awt.BasicStroke(2));
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         mMagager.draWBackground(g2d);
+        mMagager.drawAllItem(g2d);
         mMagager.drawAllBox(g2d);
         mMagager.drawAllEnemy(g2d);
-        //mMagager.drawAllItem(g2d);
         mMagager.drawAllBomb(g2d);
         mMagager.getmBomber().drawActor(g2d);
     }
@@ -121,11 +121,10 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
                     timeDead = 0;
                 }
             }
-            /*
-            // Kiem tra bomber da teo chua
-            mMagager.checkDead();
+
             // Kiem tra nhat vat pham
             mMagager.checkImpactItem();
+            /*
             // Kiem tra thang hay thua
             mMagager.checkWinAndLose();
 

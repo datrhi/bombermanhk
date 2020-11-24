@@ -206,7 +206,10 @@ public class Actor {
         return speed;
     }
 
-    public void setSpeed(int speed) { this.speed = speed; }
+    public void setSpeed(int speed) {
+        if(speed < 3) return;
+        this.speed = speed;
+    }
 
     // Type
     public int getType() {

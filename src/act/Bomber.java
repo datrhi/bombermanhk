@@ -88,10 +88,16 @@ public class Bomber extends Actor {
     // Quantity Bomb
     public int getQuantityBomb() { return quantityBomb; }
 
-    public void setQuantityBomb(int quantityBomb) { this.quantityBomb = quantityBomb; }
+    public void setQuantityBomb(int quantityBomb) {
+        if(quantityBomb > 4) return;
+        this.quantityBomb = quantityBomb;
+    }
 
     // Size Bomb
-    public void setSizeBomb(int sizeBomb) { this.sizeBomb = sizeBomb; }
+    public void setSizeBomb(int sizeBomb) {
+        if(sizeBomb > 2) return;
+        this.sizeBomb = sizeBomb;
+    }
 
     public int getSizeBomb() { return sizeBomb; }
 

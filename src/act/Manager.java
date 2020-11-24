@@ -16,11 +16,10 @@ public class Manager {
     private Random random = new Random();
     private Bomber mBomber;
     private ArrayList<Box> arrBox;
-    //private ArrayList<Box> arrShawDow;
     private ArrayList<Bomb> arrBomb;
     private ArrayList<BombBang> arrBombBang;
     private ArrayList<Enemy> arrEnemy;
-    //private ArrayList<Item> arrItem;
+    private ArrayList<Item> arrItem;
     private String Background;
     private int round=1;
     private int nextRound = 0;
@@ -30,21 +29,21 @@ public class Manager {
 
     public void initManager() {
         mBomber = new Bomber(0, 540, Actor.BOMBER, Actor.DOWN, 5, 1, 1);
-        init("src/map1/BOX.txt", "src/map1/ENEMY.txt" );
+        init("src/map1/BOX.txt", "src/map1/ENEMY.txt", "src/map1/ITEM.txt" );
         nextRound = 0;
         status = 0;
     }
 
-    public void init(String pathBox, String pathEnemy) {
+    public void init(String pathBox, String pathEnemy, String pathItem) {
         arrBox = new ArrayList<Box>();
         arrBomb = new ArrayList<Bomb>();
         arrEnemy = new ArrayList<Enemy>();
         arrBombBang = new ArrayList<BombBang>();
-        //arrItem = new ArrayList<Item>();
+        arrItem = new ArrayList<Item>();
 
         initArrBox(pathBox);
-        initArrMonster(pathEnemy);
-        //innitArrItem(pathItem);
+        initArrEnemy(pathEnemy);
+        innitArrItem(pathItem);
     }
 
     /**----------------------------- Bomber Handle. -------------------------------*/
@@ -117,9 +116,9 @@ public class Manager {
 
 
     /**----------------------------- Enemy Handle. -------------------------------*/
-    public void initArrMonster(String path) {
+    public void initArrEnemy(String pathEnemy) {
         try {
-            FileReader file = new FileReader(path);
+            FileReader file = new FileReader(pathEnemy);
             BufferedReader input = new BufferedReader(file);
             String line;
             while ((line = input.readLine()) != null) {
@@ -200,7 +199,7 @@ public class Manager {
             arrBomb.get(i).deadlineBomb();
             if(arrBomb.get(i).getTimeline() == 0) {
                 BombBang bombBang = new BombBang(arrBomb.get(i).getX(), arrBomb.get(i).getY(), arrBomb.get(i).getSize(),
-                        250);
+                        250, arrBox);
                 arrBombBang.add(bombBang);
                 arrBomb.remove(i);
             }
@@ -220,6 +219,7 @@ public class Manager {
                 if(arrBombBang.get(i).isImpactBombBangVsBox(arrBox.get(j))) {
                     arrBox.remove(j);
                 }
+
             }
 
             for(int k = 0; k < arrEnemy.size(); k++) {
@@ -227,11 +227,69 @@ public class Manager {
                     arrEnemy.remove(k);
                 }
             }
+
+            for (int j = 0; j < arrItem.size(); j++) {
+                if (arrBombBang.get(i).isImpactBombBangvsItem(arrItem.get(j))) {
+                    arrItem.remove(j);
+                }
+            }
         }
 
     }
 
     //------------------------------ Bomb Handle End. ----------------------------------//
+
+    /**------------------------------- Item Handle. ----------------------------------*/
+    public void innitArrItem(String pathItem) {
+        try {
+            FileReader file = new FileReader(pathItem);
+            BufferedReader input = new BufferedReader(file);
+            String line;
+            while ((line = input.readLine()) != null) {
+                String str[] = line.split(":");
+                int x = Integer.parseInt(str[0]);
+                int y = Integer.parseInt(str[1]);
+                int type = Integer.parseInt(str[2]);
+                String images = str[3];
+                Item item = new Item(x, y, type, images);
+                arrItem.add(item);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void drawAllItem(Graphics2D g2d) {
+        for (int i = 0; i < arrItem.size(); i++) {
+            arrItem.get(i).drawItem(g2d);
+        }
+    }
+
+    public void checkImpactItem() {
+        for (int i = 0; i < arrItem.size(); i++) {
+            if (arrItem.get(i).isImpactItemVsBomber(mBomber)) {
+                //GameSound.instance.getAudio(GameSound.ITEM).play();
+                if (arrItem.get(i).getType() == Item.Item_Bomb) {
+                    mBomber.setQuantityBomb(mBomber.getQuantityBomb() + 1);
+                    arrItem.remove(i);
+                    break;
+                }
+                if (arrItem.get(i).getType() == Item.Item_BombSize) {
+                    mBomber.setSizeBomb(mBomber.getSizeBomb() + 1);
+                    arrItem.remove(i);
+                    break;
+                }
+                if (arrItem.get(i).getType() == Item.Item_Shoe) {
+                    mBomber.setSpeed(mBomber.getSpeed() - 1);
+                    arrItem.remove(i);
+                    break;
+                }
+            }
+        }
+    }
+    //------------------------------ Item Handle End. ----------------------------------//
 
 
     /**--------------------------- Setter & Getter. ----------------------------------*/
