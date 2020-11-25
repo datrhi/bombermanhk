@@ -21,44 +21,48 @@ public class Manager {
     private ArrayList<Enemy> arrEnemy;
     private ArrayList<Item> arrItem;
     private String Background;
-    private int round=1;
+    private int round = 1;
     private int nextRound = 0;
     private int status = 0;
 
-    public Manager() { initManager(); }
+    public Manager() {
+        initManager();
+    }
 
     public void initManager() {
         mBomber = new Bomber(0, 540, Actor.BOMBER, Actor.DOWN, 5, 1, 1);
-        init("src/map1/BOX.txt", "src/map1/ENEMY.txt", "src/map1/ITEM.txt" );
+        init("src/map1/newBox.txt", "src/map1/ENEMY.txt");
         nextRound = 0;
         status = 0;
     }
 
-    public void init(String pathBox, String pathEnemy, String pathItem) {
+    public void init(String path, String pathEnemy) {
         arrBox = new ArrayList<Box>();
         arrBomb = new ArrayList<Bomb>();
         arrEnemy = new ArrayList<Enemy>();
         arrBombBang = new ArrayList<BombBang>();
         arrItem = new ArrayList<Item>();
 
-        initArrBox(pathBox);
+        innit(path);
         initArrEnemy(pathEnemy);
-        innitArrItem(pathItem);
+
     }
 
-    /**----------------------------- Bomber Handle. -------------------------------*/
+    /**
+     * ----------------------------- Bomber Handle. -------------------------------
+     */
     public void setRunBomber() {
         if (arrBomb.size() > 0) {
             //System.out.println(arrBomb.get(arrBomb.size() - 1).setRun(mBomber));
-            if (arrBomb.get(arrBomb.size() - 1).setRun(mBomber) == false ) {
+            if (arrBomb.get(arrBomb.size() - 1).setRun(mBomber) == false) {
                 mBomber.setRunBomb(Bomber.DISALLOW_RUN);
             }
         }
     }
 
     public void checkDead() {
-        for(int i = 0; i < arrBombBang.size(); i++) {
-            if(arrBombBang.get(i).isImpactBombBangVsActor(mBomber)) {
+        for (int i = 0; i < arrBombBang.size(); i++) {
+            if (arrBombBang.get(i).isImpactBombBangVsActor(mBomber)) {
                 Image image = new ImageIcon(getClass().getResource(
                         "/images/ghost.png")).getImage();
                 mBomber.setImage(image);
@@ -66,8 +70,8 @@ public class Manager {
                 mBomber.setStatus(0);
             }
         }
-        for(int i = 0; i < arrEnemy.size(); i++) {
-            if(mBomber.isImpactBomberVsActor(arrEnemy.get(i))) {
+        for (int i = 0; i < arrEnemy.size(); i++) {
+            if (mBomber.isImpactBomberVsActor(arrEnemy.get(i))) {
                 Image image = new ImageIcon(getClass().getResource(
                         "/images/ghost.png")).getImage();
                 mBomber.setImage(image);
@@ -78,21 +82,60 @@ public class Manager {
     //------------------------------ Bomber Handle End. ----------------------------//
 
 
-    /**----------------------------- Box Handle. -------------------------------*/
-    public void initArrBox(String pathBox) {
+    /**
+     * ----------------------------- Box Handle. -------------------------------
+     */
+    public void innit(String pathBox) {
         try {
             FileReader file = new FileReader(pathBox);
             BufferedReader input = new BufferedReader(file);
             Background = input.readLine();
             String line;
+            int hang = 0;
             while ((line = input.readLine()) != null) {
-                String str[] = line.split(":");
-                int x = Integer.parseInt(str[0]);
-                int y = Integer.parseInt(str[1]);
-                int type = Integer.parseInt(str[2]);
-                String images = str[3];
-                Box box = new Box(x, y, type, images);
-                arrBox.add(box);
+                for (int i = 0; i < line.length(); i++) {
+                    if (line.charAt(i) == '#') {
+                        int type = 1;
+                        int x = 45 * i;
+                        int y = 45 * hang;
+                        Box box = new Box(x, y, type, "/images/stone.png");
+                        arrBox.add(box);
+                    } else if (line.charAt(i) == '*') {
+                        int type = 0;
+                        int x = 45 * i;
+                        int y = 45 * hang;
+                        Box box = new Box(x, y, type, "/images/wood.png");
+                        arrBox.add(box);
+                    } else if (line.charAt(i) == 'b') {
+                        int type = 0;
+                        int x = 45 * i;
+                        int y = 45 * hang;
+                        Box box = new Box(x, y, type, "/images/wood.png");
+                        arrBox.add(box);
+                        type = 1;
+                        Item item = new Item(x, y, type, "/images/item_bomb.png");
+                        arrItem.add(item);
+                    } else if (line.charAt(i) == 'f') {
+                        int type = 0;
+                        int x = 45 * i;
+                        int y = 45 * hang;
+                        Box box = new Box(x, y, type, "/images/wood.png");
+                        arrBox.add(box);
+                        type = 2;
+                        Item item = new Item(x, y, type, "/images/item_bombsize.png");
+                        arrItem.add(item);
+                    } else if (line.charAt(i) == 's') {
+                        int type = 0;
+                        int x = 45 * i;
+                        int y = 45 * hang;
+                        Box box = new Box(x, y, type, "/images/wood.png");
+                        arrBox.add(box);
+                        type = 3;
+                        Item item = new Item(x, y, type, "/images/item_shoe.png");
+                        arrItem.add(item);
+                    }
+                }
+                hang++;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -115,7 +158,9 @@ public class Manager {
     //--------------------------- Box Handle End. --------------------------------//
 
 
-    /**----------------------------- Enemy Handle. -------------------------------*/
+    /**
+     * ----------------------------- Enemy Handle. -------------------------------
+     */
     public void initArrEnemy(String pathEnemy) {
         try {
             FileReader file = new FileReader(pathEnemy);
@@ -164,7 +209,9 @@ public class Manager {
     //--------------------------- Enemy Handle End. --------------------------------//
 
 
-    /**----------------------------- Bomb Handle. -------------------------------*/
+    /**
+     * ----------------------------- Bomb Handle. -------------------------------
+     */
     public void innitBomb() {
         if (mBomber.getStatus() == Bomber.DEAD) {
             return;
@@ -195,9 +242,9 @@ public class Manager {
     }
 
     public void deadLineAllBomb() {
-        for(int i = 0; i < arrBomb.size(); i++) {
+        for (int i = 0; i < arrBomb.size(); i++) {
             arrBomb.get(i).deadlineBomb();
-            if(arrBomb.get(i).getTimeline() == 0) {
+            if (arrBomb.get(i).getTimeline() == 0) {
                 BombBang bombBang = new BombBang(arrBomb.get(i).getX(), arrBomb.get(i).getY(), arrBomb.get(i).getSize(),
                         250, arrBox);
                 arrBombBang.add(bombBang);
@@ -205,25 +252,25 @@ public class Manager {
             }
         }
 
-        for(int i = 0; i < arrBombBang.size(); i++) {
+        for (int i = 0; i < arrBombBang.size(); i++) {
             arrBombBang.get(i).deadLineBombBang();
-            if(arrBombBang.get(i).getTimeLine() == 0) {
+            if (arrBombBang.get(i).getTimeLine() == 0) {
                 arrBombBang.remove(i);
             }
         }
     }
 
     public void damage() {
-        for(int i = 0; i < arrBombBang.size(); i++) {
-            for(int j = 0; j < arrBox.size(); j++) {
-                if(arrBombBang.get(i).isImpactBombBangVsBox(arrBox.get(j))) {
+        for (int i = 0; i < arrBombBang.size(); i++) {
+            for (int j = 0; j < arrBox.size(); j++) {
+                if (arrBombBang.get(i).isImpactBombBangVsBox(arrBox.get(j))) {
                     arrBox.remove(j);
                 }
 
             }
 
-            for(int k = 0; k < arrEnemy.size(); k++) {
-                if(arrBombBang.get(i).isImpactBombBangVsActor(arrEnemy.get(k))) {
+            for (int k = 0; k < arrEnemy.size(); k++) {
+                if (arrBombBang.get(i).isImpactBombBangVsActor(arrEnemy.get(k))) {
                     arrEnemy.remove(k);
                 }
             }
@@ -239,27 +286,9 @@ public class Manager {
 
     //------------------------------ Bomb Handle End. ----------------------------------//
 
-    /**------------------------------- Item Handle. ----------------------------------*/
-    public void innitArrItem(String pathItem) {
-        try {
-            FileReader file = new FileReader(pathItem);
-            BufferedReader input = new BufferedReader(file);
-            String line;
-            while ((line = input.readLine()) != null) {
-                String str[] = line.split(":");
-                int x = Integer.parseInt(str[0]);
-                int y = Integer.parseInt(str[1]);
-                int type = Integer.parseInt(str[2]);
-                String images = str[3];
-                Item item = new Item(x, y, type, images);
-                arrItem.add(item);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    /**
+     * ------------------------------- Item Handle. ----------------------------------
+     */
 
     public void drawAllItem(Graphics2D g2d) {
         for (int i = 0; i < arrItem.size(); i++) {
@@ -292,7 +321,9 @@ public class Manager {
     //------------------------------ Item Handle End. ----------------------------------//
 
 
-    /**--------------------------- Setter & Getter. ----------------------------------*/
+    /**
+     * --------------------------- Setter & Getter. ----------------------------------
+     */
     public ArrayList<Box> getArrBox() {
         return arrBox;
     }
@@ -300,6 +331,7 @@ public class Manager {
     public ArrayList<Bomb> getArrBomb() {
         return arrBomb;
     }
+
     public Bomber getmBomber() {
         return mBomber;
     }
