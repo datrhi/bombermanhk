@@ -21,7 +21,7 @@ public class Manager {
     private ArrayList<Enemy> arrEnemy;
     private ArrayList<Item> arrItem;
     private String Background;
-    private int round = 1;
+    private int round = 2;
     private int nextRound = 0;
     private int status = 0;
 
@@ -30,13 +30,23 @@ public class Manager {
     }
 
     public void initManager() {
-        mBomber = new Bomber(0, 540, Actor.BOMBER, Actor.DOWN, 5, 1, 1);
-        init("src/map1/newBox.txt", "src/map1/ENEMY.txt");
+
+        //test Boss
+        mBomber = new Bomber(315,270 , Actor.BOMBER, Actor.DOWN, 5, 1, 1);
+        init("src/map2/map2.txt");
         nextRound = 0;
         status = 0;
+        /*
+        mBomber = new Bomber(0,0 , Actor.BOMBER, Actor.DOWN, 5, 1, 1);
+        init("src/map1/map1.txt");
+        nextRound = 0;
+        status = 0;
+         */
+
+
     }
 
-    public void init(String path, String pathEnemy) {
+    public void init(String path) {
         arrBox = new ArrayList<Box>();
         arrBomb = new ArrayList<Bomb>();
         arrEnemy = new ArrayList<Enemy>();
@@ -44,8 +54,6 @@ public class Manager {
         arrItem = new ArrayList<Item>();
 
         innit(path);
-        initArrEnemy(pathEnemy);
-
     }
 
     /**
@@ -133,7 +141,20 @@ public class Manager {
                         type = 3;
                         Item item = new Item(x, y, type, "/images/item_shoe.png");
                         arrItem.add(item);
+                    } else if (line.charAt(i) == '2') {
+                        int type = 2;
+                        int x = 45 * i;
+                        int y = 45 * hang;
+                        Enemy enemy = new Enemy(x, y, type);
+                        arrEnemy.add(enemy);
+                    } else if (line.charAt(i) == '3') {
+                        int type = 3;
+                        int x = 45 * i;
+                        int y = 45 * hang;
+                        Enemy enemy = new Enemy(x, y, type);
+                        arrEnemy.add(enemy);
                     }
+
                 }
                 hang++;
             }
@@ -161,33 +182,16 @@ public class Manager {
     /**
      * ----------------------------- Enemy Handle. -------------------------------
      */
-    public void initArrEnemy(String pathEnemy) {
-        try {
-            FileReader file = new FileReader(pathEnemy);
-            BufferedReader input = new BufferedReader(file);
-            String line;
-            while ((line = input.readLine()) != null) {
-                String str[] = line.split(":");
-                int x = Integer.parseInt(str[0]);
-                int y = Integer.parseInt(str[1]);
-                int type = Integer.parseInt(str[2]);
-                int orient = Integer.parseInt(str[3]);
-                int speed = Integer.parseInt(str[4]);
-                int heart = Integer.parseInt(str[5]);
-                String images = str[6];
-                Enemy enemy = new Enemy(x, y, type, orient, speed, heart, images);
-                arrEnemy.add(enemy);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void drawAllEnemy(Graphics2D g2d) {
         for (int i = 0; i < arrEnemy.size(); i++) {
             arrEnemy.get(i).drawActor(g2d);
+        }
+    }
+
+    public void drawBoss(Graphics2D g2d) {
+        for (int i = 0; i < arrEnemy.size(); i++) {
+            arrEnemy.get(i).drawBoss(g2d);
         }
     }
 
@@ -321,6 +325,41 @@ public class Manager {
     //------------------------------ Item Handle End. ----------------------------------//
 
 
+    //check win
+
+    public void checkWin() {
+        if (mBomber.getHeart() == 0 && nextRound == 0) {
+            round = 1;
+            status = 1;
+            nextRound++;
+
+        }
+        if (arrEnemy.size() == 0 && nextRound == 0) {
+            if (round == 2) {
+                status = 3;
+                nextRound++;
+                round = 1;
+                return;
+            }
+            round = round++;
+            nextRound++;
+            status = 2;
+        }
+    }
+
+    public void setNewBomb() {
+        switch (round) {
+            case 1:
+                mBomber.setNew(0, 540);
+                break;
+            case 2:
+                mBomber.setNew(315, 270);
+                break;
+            default:
+                break;
+        }
+    }
+
     /**
      * --------------------------- Setter & Getter. ----------------------------------
      */
@@ -334,5 +373,13 @@ public class Manager {
 
     public Bomber getmBomber() {
         return mBomber;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

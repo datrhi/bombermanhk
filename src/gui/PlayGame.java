@@ -28,7 +28,9 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
     private BitSet traceKey = new BitSet();
     private Manager mMagager = new Manager();
     private int count=0;
-    private int move;
+    private int move=0;
+    private int timeLose=0;
+    private int timeNext=0;
     int timeDead = 0; // delay dead;
 
     public PlayGame(MyContainer mContainer) {
@@ -53,6 +55,7 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
         mMagager.drawAllBox(g2d);
         mMagager.drawAllEnemy(g2d);
         mMagager.getmBomber().drawActor(g2d);
+        mMagager.drawBoss(g2d);
     }
 
     private KeyAdapter keyAdapter = new KeyAdapter() {
@@ -124,16 +127,15 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
 
             // Kiem tra nhat vat pham
             mMagager.checkImpactItem();
-            /*
+
             // Kiem tra thang hay thua
-            mMagager.checkWinAndLose();
+            mMagager.checkWin();
 
 
             if(mMagager.getStatus()==1){
                 timeLose++;
                 if(timeLose == 3000){
-                    mMagager.innitManager();
-                    mContainer.setShowMenu();
+                    mMagager.initManager();
                     timeLose=0;
                 }
             }
@@ -141,7 +143,7 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
             if(mMagager.getStatus()==2){
                 timeNext++;
                 if(timeNext==3000){
-                    mMagager.innitManager();
+                    mMagager.initManager();
                     timeNext=0;
                 }
             }
@@ -149,8 +151,7 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
             if(mMagager.getStatus()==3){
                 timeNext++;
                 if(timeNext==3000){
-                    mMagager.innitManager();
-                    mContainer.setShowMenu();
+                    mMagager.initManager();
                     timeNext=0;
                 }
             }
@@ -159,11 +160,11 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
             if(mMagager.getmBomber().getStatus()==Bomber.DEAD){
                 timeDead++;
                 if(timeDead==3000){
-                    mMagager.setNewBomber();
+                    mMagager.setNewBomb();
                     timeDead=0;
                 }
             }
-            */
+
 
             // move = 5000 la khoan thoi gian enemy se thay doi huong (hàm run chay dc 5000 lan se doi huong cua cac enemy
             // va thay doi huong ntn phu thuoc vao ham changeOrientALL()
