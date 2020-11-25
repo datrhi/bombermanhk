@@ -32,16 +32,19 @@ public class Manager {
     public void initManager() {
 
         //test Boss
+        /*
         mBomber = new Bomber(315,270 , Actor.BOMBER, Actor.DOWN, 5, 1, 1);
         init("src/map2/map2.txt");
         nextRound = 0;
         status = 0;
-        /*
-        mBomber = new Bomber(0,0 , Actor.BOMBER, Actor.DOWN, 5, 1, 1);
+        */
+
+
+        mBomber = new Bomber(0,540 , Actor.BOMBER, Actor.DOWN, 5, 1, 1);
         init("src/map1/map1.txt");
         nextRound = 0;
         status = 0;
-         */
+
 
 
     }
