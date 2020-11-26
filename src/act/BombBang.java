@@ -9,7 +9,7 @@ public class BombBang extends Actor{
     private int x,y,size,timeLine;
     private Image bombBang_left, bombBang_right, bombBang_up, bombBang_down;
 
-    public BombBang(int x, int y, int size, int timeLine, ArrayList<Box> arrBox) {
+    public BombBang(int x, int y, int size,int timeLine, ArrayList<Box> arrBox) {
         x = (x/45) * 45;  // chuan hoa ve nguyen lan cua 45
         y = (y/45) * 45;
         this.x = x;
@@ -123,6 +123,18 @@ public class BombBang extends Actor{
             }else{
                 return true;
             }
+        }
+        return false;
+    }
+
+    public boolean isImpactBombBangvsBomb(Bomb bomb){
+        Rectangle rec1 = new Rectangle(x+45-bombBang_left.getWidth(null), y, bombBang_left.getWidth(null), bombBang_left.getHeight(null));
+        Rectangle rec2 = new Rectangle(x, y,bombBang_right.getWidth(null), bombBang_right.getHeight(null));
+        Rectangle rec3 = new Rectangle(x, y+45-bombBang_up.getHeight(null), bombBang_up.getWidth(null), bombBang_up.getHeight(null));
+        Rectangle rec4 = new Rectangle(x, y, bombBang_down.getWidth(null), bombBang_down.getHeight(null));
+        Rectangle rec5 = new Rectangle(bomb.getX(), bomb.getY(), bomb.getWidth(), bomb.getHeight());
+        if(rec1.intersects(rec5) || rec2.intersects(rec5) || rec3.intersects(rec5) || rec4.intersects(rec5)){
+            return true;
         }
         return false;
     }

@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import sound.GameSound;
 
 public class Manager {
 
@@ -79,6 +80,7 @@ public class Manager {
                 mBomber.setImage(image);
                 //mBomber.drawActor(image);
                 mBomber.setStatus(0);
+                GameSound.instance.getAudio(GameSound.BOMBER_DIE).play();
             }
         }
         for (int i = 0; i < arrEnemy.size(); i++) {
@@ -87,6 +89,7 @@ public class Manager {
                         "/images/ghost.png")).getImage();
                 mBomber.setImage(image);
                 mBomber.setStatus(0);
+                GameSound.instance.getAudio(GameSound.BOMBER_DIE).play();
             }
         }
     }
@@ -233,7 +236,7 @@ public class Manager {
         if (arrBomb.size() >= mBomber.getQuantityBomb()) {
             return;
         }
-        //GameSound.getIstance().getAudio(GameSound.BOMB).play();
+        GameSound.getIstance().getAudio(GameSound.BOMB).play();
         Bomb mBomb = new Bomb(x, y, mBomber.getSizeBomb(), 3000);
         arrBomb.add(mBomb);
     }
@@ -254,6 +257,7 @@ public class Manager {
             if (arrBomb.get(i).getTimeline() == 0) {
                 BombBang bombBang = new BombBang(arrBomb.get(i).getX(), arrBomb.get(i).getY(), arrBomb.get(i).getSize(),
                         250, arrBox);
+                GameSound.getIstance().getAudio(GameSound.BONG_BANG).play();
                 arrBombBang.add(bombBang);
                 arrBomb.remove(i);
             }
@@ -279,12 +283,23 @@ public class Manager {
             for (int k = 0; k < arrEnemy.size(); k++) {
                 if (arrBombBang.get(i).isImpactBombBangVsActor(arrEnemy.get(k))) {
                     arrEnemy.remove(k);
+                    GameSound.getIstance().getAudio(GameSound.MONSTER_DIE).play();
                 }
             }
 
             for (int j = 0; j < arrItem.size(); j++) {
                 if (arrBombBang.get(i).isImpactBombBangvsItem(arrItem.get(j))) {
                     arrItem.remove(j);
+                }
+            }
+
+            for(int t = 0; t < arrBomb.size(); t++) {
+                if (arrBombBang.get(i).isImpactBombBangvsBomb(arrBomb.get(t))) {
+                    BombBang bomBang = new BombBang(arrBomb.get(t).getX(),
+                            arrBomb.get(t).getY(), arrBomb.get(t).getSize(),
+                            250, arrBox);
+                    arrBombBang.add(bomBang);
+                    arrBomb.remove(t);
                 }
             }
         }
@@ -306,7 +321,7 @@ public class Manager {
     public void checkImpactItem() {
         for (int i = 0; i < arrItem.size(); i++) {
             if (arrItem.get(i).isImpactItemVsBomber(mBomber)) {
-                //GameSound.instance.getAudio(GameSound.ITEM).play();
+                GameSound.instance.getAudio(GameSound.ITEM).play();
                 if (arrItem.get(i).getType() == Item.Item_Bomb) {
                     mBomber.setQuantityBomb(mBomber.getQuantityBomb() + 1);
                     arrItem.remove(i);

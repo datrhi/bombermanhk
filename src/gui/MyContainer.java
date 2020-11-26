@@ -1,5 +1,7 @@
 package gui;
 
+import sound.GameSound;
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.JPanel;
@@ -32,11 +34,15 @@ public class MyContainer extends JPanel {
     public void setShowMenu() {
         mCardLayout.show(this, "menu");
         mMenu.requestFocus();
+        GameSound.getIstance().stop();
+        GameSound.getIstance().getAudio(GameSound.MENU).loop();
     }
 
     public void setShowPlay() {
         mCardLayout.show(this, "play");
         mPlayGame.requestFocus();
+        GameSound.getIstance().getAudio(GameSound.MENU).stop();
+        GameSound.getIstance().getAudio(GameSound.PLAYGAME).loop();
     }
 
     public void setShowHowtoplay() {

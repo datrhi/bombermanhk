@@ -1,5 +1,7 @@
 package gui;
 
+import sound.GameSound;
+
 import java.awt.CardLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -25,6 +27,7 @@ public class GUI extends JFrame {
     private WindowAdapter mwindow = new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
+            GameSound.getIstance().stop();
             PlayGame.IS_RUNNING = false;
         }
     };
