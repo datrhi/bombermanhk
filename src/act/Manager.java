@@ -33,20 +33,19 @@ public class Manager {
     public void initManager() {
 
         //test Boss
-        /*
-        mBomber = new Bomber(315,270 , Actor.BOMBER, Actor.DOWN, 5, 1, 1);
+
+
+        mBomber = new Bomber(315,270 , Actor.BOMBER, Actor.DOWN, 3, 2, 3);
         init("src/map2/map2.txt");
         nextRound = 0;
         status = 0;
-        */
 
-
+        /*
         mBomber = new Bomber(0,540 , Actor.BOMBER, Actor.DOWN, 5, 1, 1);
         init("src/map1/map1.txt");
         nextRound = 0;
         status = 0;
-
-
+        */
 
     }
 
@@ -87,7 +86,7 @@ public class Manager {
             if (mBomber.isImpactBomberVsActor(arrEnemy.get(i))) {
                 Image image = new ImageIcon(getClass().getResource(
                         "/images/ghost.png")).getImage();
-                mBomber.setImage(image);
+                //mBomber.setImage(image);
                 mBomber.setStatus(0);
                 GameSound.instance.getAudio(GameSound.BOMBER_DIE).play();
             }
@@ -282,8 +281,13 @@ public class Manager {
 
             for (int k = 0; k < arrEnemy.size(); k++) {
                 if (arrBombBang.get(i).isImpactBombBangVsActor(arrEnemy.get(k))) {
-                    arrEnemy.remove(k);
-                    GameSound.getIstance().getAudio(GameSound.MONSTER_DIE).play();
+                    if(arrEnemy.get(k).getHeart()>1) {
+                        arrEnemy.get(k).setHeart(arrEnemy.get(k).getHeart() - 1);
+                    }
+                    else {
+                        arrEnemy.remove(k);
+                        GameSound.getIstance().getAudio(GameSound.MONSTER_DIE).play();
+                    }
                 }
             }
 

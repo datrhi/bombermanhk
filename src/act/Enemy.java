@@ -101,4 +101,13 @@ public class Enemy extends Actor {
 
     }
 
+
+    public int getHeart() {
+        return heart;
+    }
+
+    public void setHeart(int heart) {
+        this.heart = heart;
+    }
+
 }
