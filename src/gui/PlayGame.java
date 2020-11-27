@@ -75,6 +75,7 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
 
         while(IS_RUNNING){
 
+            System.out.println(mMagager.getRound());
             /** Dieu chinh toc do */
             try {
                 Thread.sleep(1);
@@ -115,15 +116,19 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
             mMagager.deadLineAllBomb();
             mMagager.checkDead();
 
+            /*
             if(mMagager.getmBomber().getStatus() == 0) {
                 timeDead++;  //Delay 2000 loop
-                System.out.println(timeDead);
+               // System.out.println(timeDead);
                 if(timeDead == 2000){
-                    mMagager.initManager();
-                    mContainer.setShowMenu();
+                   // mMagager.initManager();
+                    // mContainer.setShowMenu();
+                    mMagager.setNewBomber();
                     timeDead = 0;
                 }
             }
+
+             */
 
             // Kiem tra nhat vat pham
             mMagager.checkImpactItem();
@@ -136,6 +141,7 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
                 timeLose++;
                 if(timeLose == 3000){
                     mMagager.initManager();
+                    mContainer.setShowMenu();
                     timeLose=0;
                 }
             }
@@ -160,7 +166,7 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
             if(mMagager.getmBomber().getStatus()==Bomber.DEAD){
                 timeDead++;
                 if(timeDead==3000){
-                    mMagager.setNewBomb();
+                    mMagager.setNewBomber();
                     timeDead=0;
                 }
             }

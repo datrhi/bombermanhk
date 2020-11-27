@@ -22,7 +22,7 @@ public class Manager {
     private ArrayList<Enemy> arrEnemy;
     private ArrayList<Item> arrItem;
     private String Background;
-    private int round = 2;
+    private int round = 1;
     private int nextRound = 0;
     private int status = 0;
 
@@ -32,21 +32,21 @@ public class Manager {
 
     public void initManager() {
 
-        //test Boss
+        switch(round) {
 
-
-        mBomber = new Bomber(315,270 , Actor.BOMBER, Actor.DOWN, 3, 2, 3);
-        init("src/map2/map2.txt");
-        nextRound = 0;
-        status = 0;
-
-        /*
-        mBomber = new Bomber(0,540 , Actor.BOMBER, Actor.DOWN, 5, 1, 1);
-        init("src/map1/map1.txt");
-        nextRound = 0;
-        status = 0;
-        */
-
+            case 1:
+                mBomber = new Bomber(0,540 , Actor.BOMBER, Actor.DOWN, 5, 1, 1);
+                init("src/map1/map1.txt");
+                nextRound = 0;
+                status = 0;
+                break;
+            case 2:
+                mBomber = new Bomber(315,270 , Actor.BOMBER, Actor.DOWN, 4, 1, 2);
+                init("src/map2/map2.txt");
+                nextRound = 0;
+                status = 0;
+                break;
+        }
     }
 
     public void init(String path) {
@@ -78,7 +78,11 @@ public class Manager {
                         "/images/ghost.png")).getImage();
                 mBomber.setImage(image);
                 //mBomber.drawActor(image);
-                mBomber.setStatus(0);
+                if (mBomber.getStatus() == Bomber.DEAD) {
+                    return;
+                }
+                mBomber.setHeart(mBomber.getHeart() - 1);
+                mBomber.setStatus(mBomber.DEAD);
                 GameSound.instance.getAudio(GameSound.BOMBER_DIE).play();
             }
         }
@@ -86,10 +90,47 @@ public class Manager {
             if (mBomber.isImpactBomberVsActor(arrEnemy.get(i))) {
                 Image image = new ImageIcon(getClass().getResource(
                         "/images/ghost.png")).getImage();
-                //mBomber.setImage(image);
-                mBomber.setStatus(0);
+                mBomber.setImage(image);
+                if (mBomber.getStatus() == Bomber.DEAD) {
+                    return;
+                }
+                mBomber.setHeart(mBomber.getHeart() - 1);
+                mBomber.setStatus(mBomber.DEAD);
                 GameSound.instance.getAudio(GameSound.BOMBER_DIE).play();
             }
+        }
+    }
+
+    public void checkWin() {
+        if (mBomber.getHeart() == 0 && nextRound == 0) {
+            round = 1;
+            status = 1;
+            nextRound++;
+
+        }
+        if (arrEnemy.size() == 0 && nextRound == 0) {
+            if (round == 2) {
+                status = 3;
+                nextRound++;
+                round = 1;
+                return;
+            }
+            round = round + 1;
+            nextRound++;
+            status = 2;
+        }
+    }
+
+    public void setNewBomber() {
+        switch (round) {
+            case 1:
+                mBomber.setNew(0, 540);
+                break;
+            case 2:
+                mBomber.setNew(315, 270);
+                break;
+            default:
+                break;
         }
     }
     //------------------------------ Bomber Handle End. ----------------------------//
@@ -346,42 +387,6 @@ public class Manager {
     }
     //------------------------------ Item Handle End. ----------------------------------//
 
-
-    //check win
-
-    public void checkWin() {
-        if (mBomber.getHeart() == 0 && nextRound == 0) {
-            round = 1;
-            status = 1;
-            nextRound++;
-
-        }
-        if (arrEnemy.size() == 0 && nextRound == 0) {
-            if (round == 2) {
-                status = 3;
-                nextRound++;
-                round = 1;
-                return;
-            }
-            round = round++;
-            nextRound++;
-            status = 2;
-        }
-    }
-
-    public void setNewBomb() {
-        switch (round) {
-            case 1:
-                mBomber.setNew(0, 540);
-                break;
-            case 2:
-                mBomber.setNew(315, 270);
-                break;
-            default:
-                break;
-        }
-    }
-
     /**
      * --------------------------- Setter & Getter. ----------------------------------
      */
@@ -404,4 +409,6 @@ public class Manager {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public int getRound () { return this.round;}
 }
