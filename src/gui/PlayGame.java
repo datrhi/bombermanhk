@@ -139,7 +139,7 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
 
             if(mMagager.getStatus()==1){
                 timeLose++;
-                if(timeLose == 3000){
+                if(timeLose == 1){
                     mMagager.initManager();
                     mContainer.setShowMenu();
                     timeLose=0;
@@ -148,7 +148,7 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
 
             if(mMagager.getStatus()==2){
                 timeNext++;
-                if(timeNext==3000){
+                if(timeNext==1){
                     mMagager.initManager();
                     timeNext=0;
                 }
@@ -156,7 +156,7 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
 
             if(mMagager.getStatus()==3){
                 timeNext++;
-                if(timeNext==3000){
+                if(timeNext==1){
                     mMagager.initManager();
                     timeNext=0;
                 }

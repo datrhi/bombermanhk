@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
 import sound.GameSound;
 
 public class Manager {
@@ -26,22 +27,24 @@ public class Manager {
     private int nextRound = 0;
     private int status = 0;
 
+    public int pt = 0;
+
     public Manager() {
         initManager();
     }
 
     public void initManager() {
 
-        switch(round) {
+        switch (round) {
 
             case 1:
-                mBomber = new Bomber(0,540 , Actor.BOMBER, Actor.DOWN, 5, 1, 1);
+                mBomber = new Bomber(0, 540, Actor.BOMBER, Actor.DOWN, 5, 1, 1);
                 init("src/map1/map1.txt");
                 nextRound = 0;
                 status = 0;
                 break;
             case 2:
-                mBomber = new Bomber(315,270 , Actor.BOMBER, Actor.DOWN, 4, 1, 2);
+                mBomber = new Bomber(315, 270, Actor.BOMBER, Actor.DOWN, 4, 1, 2);
                 init("src/map2/map2.txt");
                 nextRound = 0;
                 status = 0;
@@ -108,7 +111,7 @@ public class Manager {
             nextRound++;
 
         }
-        if (arrEnemy.size() == 0 && nextRound == 0) {
+        if (arrEnemy.size() == 0 && nextRound == 0 && pt == 1) {
             if (round == 2) {
                 status = 3;
                 nextRound++;
@@ -118,6 +121,7 @@ public class Manager {
             round = round + 1;
             nextRound++;
             status = 2;
+            pt = 0;
         }
     }
 
@@ -199,6 +203,15 @@ public class Manager {
                         int y = 45 * hang;
                         Enemy enemy = new Enemy(x, y, type);
                         arrEnemy.add(enemy);
+                    } else if (line.charAt(i) == 'p') {
+                        int type = 0;
+                        int x = 45 * i;
+                        int y = 45 * hang;
+                        Box box = new Box(x, y, type, "/images/wood.png");
+                        arrBox.add(box);
+                        type = 4;
+                        Item item = new Item(x, y, type, "/images/item_portal.png");
+                        arrItem.add(item);
                     }
 
                 }
@@ -322,10 +335,9 @@ public class Manager {
 
             for (int k = 0; k < arrEnemy.size(); k++) {
                 if (arrBombBang.get(i).isImpactBombBangVsActor(arrEnemy.get(k))) {
-                    if(arrEnemy.get(k).getHeart()>1) {
+                    if (arrEnemy.get(k).getHeart() > 1) {
                         arrEnemy.get(k).setHeart(arrEnemy.get(k).getHeart() - 1);
-                    }
-                    else {
+                    } else {
                         arrEnemy.remove(k);
                         GameSound.getIstance().getAudio(GameSound.MONSTER_DIE).play();
                     }
@@ -338,7 +350,7 @@ public class Manager {
                 }
             }
 
-            for(int t = 0; t < arrBomb.size(); t++) {
+            for (int t = 0; t < arrBomb.size(); t++) {
                 if (arrBombBang.get(i).isImpactBombBangvsBomb(arrBomb.get(t))) {
                     BombBang bomBang = new BombBang(arrBomb.get(t).getX(),
                             arrBomb.get(t).getY(), arrBomb.get(t).getSize(),
@@ -382,6 +394,11 @@ public class Manager {
                     arrItem.remove(i);
                     break;
                 }
+                if (arrItem.get(i).getType() == Item.Item_Portal) {
+                    pt = 1;
+                    arrItem.remove(i);
+                    break;
+                }
             }
         }
     }
@@ -410,5 +427,7 @@ public class Manager {
         this.status = status;
     }
 
-    public int getRound () { return this.round;}
+    public int getRound() {
+        return this.round;
+    }
 }
