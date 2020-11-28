@@ -22,7 +22,7 @@ public class Enemy extends Actor {
         } else if (this.type == Actor.BOSS) {
             this.orient = 4;
             this.speed = 10;
-            this.heart = 2500;
+            this.heart = 100;
             this.image = new ImageIcon(getClass().getResource("/images/boss_down.png")).getImage();
             width = image.getWidth(null);
             height = image.getHeight(null) - 38;

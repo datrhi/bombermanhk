@@ -14,7 +14,7 @@ public class GUI extends JFrame {
 
     public GUI() {
         setTitle("BoomHK");
-        setSize(905, 620);
+        setSize(1395, 620);
         setLayout(new CardLayout());
         setLocationRelativeTo(null);  // hiện thị ra giữa màn hình
         setResizable(false);

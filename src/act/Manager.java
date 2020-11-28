@@ -38,13 +38,13 @@ public class Manager {
         switch (round) {
 
             case 1:
-                mBomber = new Bomber(0, 540, Actor.BOMBER, Actor.DOWN, 5, 1, 1);
-                init("src/map1/map1.txt");
+                mBomber = new Bomber(45, 45, Actor.BOMBER, Actor.DOWN, 5, 1, 1);
+                init("src/map1/sourcemap.txt");
                 nextRound = 0;
                 status = 0;
                 break;
             case 2:
-                mBomber = new Bomber(315, 270, Actor.BOMBER, Actor.DOWN, 4, 1, 2);
+                mBomber = new Bomber(315, 270, Actor.BOMBER, Actor.DOWN, 4, 5, 4);
                 init("src/map2/map2.txt");
                 nextRound = 0;
                 status = 0;
@@ -128,7 +128,7 @@ public class Manager {
     public void setNewBomber() {
         switch (round) {
             case 1:
-                mBomber.setNew(0, 540);
+                mBomber.setNew(45, 45);
                 break;
             case 2:
                 mBomber.setNew(315, 270);

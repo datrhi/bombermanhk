@@ -75,7 +75,6 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
 
         while(IS_RUNNING){
 
-            System.out.println(mMagager.getRound());
             /** Dieu chinh toc do */
             try {
                 Thread.sleep(1);
@@ -157,7 +156,8 @@ public class PlayGame extends JPanel implements Runnable,ActionListener{
             if(mMagager.getStatus()==3){
                 timeNext++;
                 if(timeNext==1){
-                    mMagager.initManager();
+                    mContainer.setShowMenu();
+
                     timeNext=0;
                 }
             }
