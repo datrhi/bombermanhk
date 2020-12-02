@@ -38,14 +38,14 @@ public class Manager {
         switch (round) {
 
             case 1:
-                mBomber = new Bomber(45, 45, Actor.BOMBER, Actor.DOWN, 5, 1, 2);
+                mBomber = new Bomber(45, 45, Actor.BOMBER, Actor.DOWN, 4, 1, 2);
                 init("src/map1/map1.txt");
                 nextRound = 0;
                 status = 0;
                 break;
             case 2:
                 //mBomber = new Bomber(315, 270, Actor.BOMBER, Actor.DOWN, 4, 5, 4);
-                mBomber = new Bomber(45, 45, Actor.BOMBER, Actor.DOWN, 5, 1, 1);
+                mBomber = new Bomber(45, 45, Actor.BOMBER, Actor.DOWN, 4, 1, 1);
                 init("src/map2/map2.txt");
                 nextRound = 0;
                 status = 0;
